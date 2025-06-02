@@ -32,7 +32,7 @@ public class User {
     @ManyToOne
     private Location location;
 
-    @OneToOne
+    @ManyToOne
     private Position position;
 
     public User() {

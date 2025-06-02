@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="layout :: head('User Form')">
+    <title>User Form</title>
+</head>
+<body>
+<nav th:replace="layout :: navbar"></nav>
+<div class="container mt-5">
+    <h2 th:text="${isNew} ? 'Create User' : 'Edit User'"></h2>
+    <form th:action="@{${formAction}}" method="post" th:object="${user}">
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" th:field="*{username}" class="form-control" id="username" required th:readonly="${!isNew}">
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" th:field="*{name}" class="form-control" id="name" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" th:field="*{email}" class="form-control" id="email" required>
+        </div>
+        <div class="mb-3">
+            <label for="endereco" class="form-label">Address</label>
+            <input type="text" th:field="*{endereco}" class="form-control" id="endereco">
+        </div>
+        <div class="mb-3">
+            <label for="locationId" class="form-label">Location</label>
+            <select th:field="*{locationId}" class="form-select" id="locationId">
+                <option th:each="loc : ${locations}" th:value="${loc.id}" th:text="${loc.city + ', ' + loc.state}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="positionId" class="form-label">Position</label>
+            <select th:field="*{positionId}" class="form-select" id="positionId">
+                <option th:each="pos : ${positions}" th:value="${pos.id}"
+                        th:text="${pos.latitude + ', ' + pos.longitude}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="role" class="form-label">Role</label>
+            <select th:field="*{role}" class="form-select" id="role" required>
+                <option value="ADMIN" th:selected="${user.role == 'ADMIN'}">ADMIN</option>
+                <option value="USER" th:selected="${user.role == 'USER'}">USER</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label me-3">Enabled</label>
+            <input type="checkbox" th:field="*{enabled}" class="form-check-input" id="enabled">
+        </div>
+        <div class="mb-3" th:if="${isNew}">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" id="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-save"></i> Save
+        </button>
+        <a th:href="@{/admin/users}" class="btn btn-secondary ms-2">Cancel</a>
+    </form>
+</div>
+<footer th:replace="layout :: footer"></footer>
+</body>
+</html>
