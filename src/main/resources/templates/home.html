@@ -11,6 +11,22 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-8">
+            <!-- Nearby Alerts Card -->
+            <div th:if="${nearbyAlerts != null and #lists.size(nearbyAlerts) > 0}" class="card mb-4">
+                <div class="card-header bg-danger text-white">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    Alerts Near You (last 24 hours, within 5km)
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li th:each="alert : ${nearbyAlerts}" class="list-group-item">
+                        <strong th:text="${alert.message}">Alert message</strong><br>
+                        <small>
+                            Location: <span th:text="${locationMap[alert.locationId]}"></span> |
+                            Date: <span th:text="${#temporals.format(alert.creation, 'yyyy-MM-dd HH:mm')}"></span>
+                        </small>
+                    </li>
+                </ul>
+            </div>
             <div class="card shadow mb-4">
                 <div class="card-header bg-primary text-white">
                     <h5 class="mb-0"><i class="bi bi-exclamation-triangle me-2"></i>Recent Alerts</h5>

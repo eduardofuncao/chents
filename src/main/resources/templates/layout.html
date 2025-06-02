@@ -3,6 +3,8 @@
 <head th:fragment="head(title)">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title th:text="${title} + ' - Flood Alert System'">Flood Alert System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
@@ -35,6 +37,14 @@
                 <span class="navbar-text me-3">
                     Welcome <span sec:authentication="name">User</span>
                 </span>
+                <!-- Position display -->
+                <span class="navbar-text me-3" id="user-position-display">
+                    <i class="bi bi-geo-alt"></i> Position: <span id="user-position-coordinates">Loading...</span>
+                </span>
+                <!-- Update position button -->
+                <button id="update-position-btn" class="btn btn-outline-light me-3" onclick="getUserLocation()">
+                    <i class="bi bi-geo"></i> Update Position
+                </button>
                 <form th:action="@{/logout}" method="post">
                     <button type="submit" class="btn btn-outline-light">Logout</button>
                 </form>
@@ -51,6 +61,124 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script th:src="@{/js/main.js}"></script>
+
+    <!-- JavaScript for position functionality -->
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch and display the current user position on page load
+            fetchUserPosition();
+        });
+
+        // Function to fetch the current user position from the server
+        function fetchUserPosition() {
+            fetch('/api/user/position')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch position');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data && data.latitude && data.longitude) {
+                        updatePositionDisplay(data.latitude, data.longitude);
+                    } else {
+                        document.getElementById('user-position-coordinates').textContent = 'Not set';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching position:', error);
+                    document.getElementById('user-position-coordinates').textContent = 'Not available';
+                });
+        }
+
+        // Function to get the user's current GPS location
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                document.getElementById('update-position-btn').disabled = true;
+                document.getElementById('update-position-btn').innerHTML = '<i class="bi bi-hourglass-split"></i> Getting Location...';
+
+                navigator.geolocation.getCurrentPosition(
+                    // Success callback
+                    function(position) {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+
+                        // Update position on server
+                        updateUserPosition(latitude, longitude);
+                    },
+                    // Error callback
+                    function(error) {
+                        console.error('Geolocation error:', error);
+                        let errorMessage = 'Unable to get your location';
+
+                        switch(error.code) {
+                            case error.PERMISSION_DENIED:
+                                errorMessage = 'Location access denied. Please enable location services.';
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                errorMessage = 'Location information unavailable.';
+                                break;
+                            case error.TIMEOUT:
+                                errorMessage = 'Location request timed out.';
+                                break;
+                        }
+
+                        alert(errorMessage);
+                        document.getElementById('update-position-btn').disabled = false;
+                        document.getElementById('update-position-btn').innerHTML = '<i class="bi bi-geo"></i> Update Position';
+                    },
+                    // Options
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        }
+
+        // Function to update the user's position on the server
+        function updateUserPosition(latitude, longitude) {
+            const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+            const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+            fetch('/api/user/position/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    [csrfHeader]: csrfToken
+                },
+                body: JSON.stringify({ latitude, longitude })
+            })
+
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to update position');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    updatePositionDisplay(latitude, longitude);
+                    document.getElementById('update-position-btn').disabled = false;
+                    document.getElementById('update-position-btn').innerHTML = '<i class="bi bi-geo"></i> Update Position';
+                })
+                .catch(error => {
+                    console.error('Error updating position:', error);
+                    alert('Failed to update position. Please try again.');
+                    document.getElementById('update-position-btn').disabled = false;
+                    document.getElementById('update-position-btn').innerHTML = '<i class="bi bi-geo"></i> Update Position';
+                });
+        }
+
+        // Function to update the position display in the navbar
+        function updatePositionDisplay(latitude, longitude) {
+            const formattedLatitude = latitude.toFixed(6);
+            const formattedLongitude = longitude.toFixed(6);
+            document.getElementById('user-position-coordinates').textContent =
+                `${formattedLatitude}, ${formattedLongitude}`;
+        }
+    </script>
 </footer>
 
 </body>

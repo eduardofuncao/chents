@@ -6,6 +6,7 @@ import br.com.fiap.chents.repository.AlertRepository;
 import br.com.fiap.chents.entity.mapper.AlertMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -53,5 +54,10 @@ public class AlertService {
             return true;
         }
         return false;
+    }
+
+    public List<AlertDTO> getAlertsNearby(double lat, double lng, double radiusKm, LocalDateTime since) {
+        List<Alert> alerts = alertRepository.findAlertsNearby(lat, lng, radiusKm, since);
+        return alerts.stream().map(alertMapper::toDTO).collect(Collectors.toList());
     }
 }
