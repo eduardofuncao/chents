@@ -1,1 +1,1 @@
-![svg-viewer](https://github.com/user-attachments/assets/8e62c376-8ea7-4148-9fa8-aad4a70111ba)
+![svgviewer-png-output](https://github.com/user-attachments/assets/3c0bf63a-5bbf-4c68-b222-d2606ec31377)
