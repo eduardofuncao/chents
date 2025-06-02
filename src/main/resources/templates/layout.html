@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="pt_BR">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en_US">
 <head th:fragment="head(title)">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <title th:text="${title} + ' - Flood Alert System'">Flood Alert System</title>
+    <title th:text="${title} + ' - ' + #{app.title}">Flood Alert System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
@@ -16,7 +16,7 @@
 <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/home}">
-            <i class="bi bi-water me-2"></i>Flood Alert System
+            <i class="bi bi-water me-2"></i><span th:text="#{app.title}">Flood Alert System</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -24,29 +24,42 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/home}">Home</a>
+                    <a class="nav-link" th:href="@{/home}" th:text="#{nav.home}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/alerts}">Alerts</a>
+                    <a class="nav-link" th:href="@{/alerts}" th:text="#{nav.alerts}">Alerts</a>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                    <a class="nav-link" th:href="@{/admin/users}">Admin</a>
+                    <a class="nav-link" th:href="@{/admin/users}" th:text="#{nav.admin}">Admin</a>
                 </li>
             </ul>
+
             <div class="d-flex" sec:authorize="isAuthenticated()">
                 <span class="navbar-text me-3">
-                    Welcome <span sec:authentication="name">User</span>
+                    <span th:text="#{navbar.welcome}">Welcome</span> <span sec:authentication="name">User</span>
                 </span>
                 <!-- Position display -->
                 <span class="navbar-text me-3" id="user-position-display">
-                    <i class="bi bi-geo-alt"></i> Position: <span id="user-position-coordinates">Loading...</span>
+                    <i class="bi bi-geo-alt"></i>
+                    <span th:text="#{navbar.position.label}">Position</span>:
+                    <span id="user-position-coordinates" th:text="#{navbar.position.loading}">Loading...</span>
                 </span>
                 <!-- Update position button -->
                 <button id="update-position-btn" class="btn btn-outline-light me-3" onclick="getUserLocation()">
-                    <i class="bi bi-geo"></i> Update Position
+                    <i class="bi bi-geo"></i> <span th:text="#{navbar.position.update}">Update Position</span>
                 </button>
+                <!-- Language Switcher -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-light dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-globe"></i> <span th:text="#{language.current}">Language</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                        <li><a class="dropdown-item" th:href="@{''(lang=en_US)}" th:text="#{lang.en_US}">English</a></li>
+                        <li><a class="dropdown-item" th:href="@{''(lang=pt_BR)}" th:text="#{lang.pt_BR}">Portuguese</a></li>
+                    </ul>
+                </div>
                 <form th:action="@{/logout}" method="post">
-                    <button type="submit" class="btn btn-outline-light">Logout</button>
+                    <button type="submit" class="btn btn-outline-light" th:text="#{navbar.logout}">Logout</button>
                 </form>
             </div>
         </div>
@@ -56,7 +69,7 @@
 <!-- Footer -->
 <footer th:fragment="footer" class="footer mt-auto py-3 bg-light">
     <div class="container text-center">
-        <span class="text-muted">© 2025 Flood Alert System</span>
+        <span class="text-muted">© 2025 <span th:text="#{app.title}">Flood Alert System</span></span>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -82,12 +95,12 @@
                     if (data && data.latitude && data.longitude) {
                         updatePositionDisplay(data.latitude, data.longitude);
                     } else {
-                        document.getElementById('user-position-coordinates').textContent = 'Not set';
+                        document.getElementById('user-position-coordinates').textContent = /*[[#{navbar.position.notset}]]*/ 'Not set';
                     }
                 })
                 .catch(error => {
                     console.error('Error fetching position:', error);
-                    document.getElementById('user-position-coordinates').textContent = 'Not available';
+                    document.getElementById('user-position-coordinates').textContent = /*[[#{navbar.position.unavailable}]]*/ 'Not available';
                 });
         }
 
@@ -95,7 +108,7 @@
         function getUserLocation() {
             if (navigator.geolocation) {
                 document.getElementById('update-position-btn').disabled = true;
-                document.getElementById('update-position-btn').innerHTML = '<i class="bi bi-hourglass-split"></i> Getting Location...';
+                document.getElementById('update-position-btn').innerHTML = '<i class="bi bi-hourglass-split"></i> ' + /*[[#{navbar.position.getting}]]*/'Getting Location...';
 
                 navigator.geolocation.getCurrentPosition(
                     // Success callback
@@ -109,23 +122,23 @@
                     // Error callback
                     function(error) {
                         console.error('Geolocation error:', error);
-                        let errorMessage = 'Unable to get your location';
+                        let errorMessage = /*[[#{navbar.position.error.generic}]]*/'Unable to get your location';
 
                         switch(error.code) {
                             case error.PERMISSION_DENIED:
-                                errorMessage = 'Location access denied. Please enable location services.';
+                                errorMessage = /*[[#{navbar.position.error.denied}]]*/'Location access denied. Please enable location services.';
                                 break;
                             case error.POSITION_UNAVAILABLE:
-                                errorMessage = 'Location information unavailable.';
+                                errorMessage = /*[[#{navbar.position.error.unavailable}]]*/'Location information unavailable.';
                                 break;
                             case error.TIMEOUT:
-                                errorMessage = 'Location request timed out.';
+                                errorMessage = /*[[#{navbar.position.error.timeout}]]*/'Location request timed out.';
                                 break;
                         }
 
                         alert(errorMessage);
                         document.getElementById('update-position-btn').disabled = false;
-                        document.getElementById('update-position-btn').innerHTML = '<i class="bi bi-geo"></i> Update Position';
+                        document.getElementById('update-position-btn').innerHTML = '<i class="bi bi-geo"></i> ' + /*[[#{navbar.position.update}]]*/'Update Position';
                     },
                     // Options
                     {
@@ -135,7 +148,7 @@
                     }
                 );
             } else {
-                alert('Geolocation is not supported by this browser.');
+                alert(/*[[#{navbar.position.error.notsupported}]]*/'Geolocation is not supported by this browser.');
             }
         }
 
@@ -161,13 +174,13 @@
                 .then(data => {
                     updatePositionDisplay(latitude, longitude);
                     document.getElementById('update-position-btn').disabled = false;
-                    document.getElementById('update-position-btn').innerHTML = '<i class="bi bi-geo"></i> Update Position';
+                    document.getElementById('update-position-btn').innerHTML = '<i class="bi bi-geo"></i> ' + /*[[#{navbar.position.update}]]*/'Update Position';
                 })
                 .catch(error => {
                     console.error('Error updating position:', error);
-                    alert('Failed to update position. Please try again.');
+                    alert(/*[[#{navbar.position.error.updatefail}]]*/'Failed to update position. Please try again.');
                     document.getElementById('update-position-btn').disabled = false;
-                    document.getElementById('update-position-btn').innerHTML = '<i class="bi bi-geo"></i> Update Position';
+                    document.getElementById('update-position-btn').innerHTML = '<i class="bi bi-geo"></i> ' + /*[[#{navbar.position.update}]]*/'Update Position';
                 });
         }
 

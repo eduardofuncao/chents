@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="pt_BR">
-<head th:replace="layout :: head('Alert List')">
-    <title>Alert List - Flood Alert System</title>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en_US">
+<head th:replace="~{layout :: head('Alert List')}">
+    <title th:text="#{alert.list.title}">Alert List - Flood Alert System</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
 
 <!-- Include navbar from fragments -->
-<nav th:replace="layout :: navbar"></nav>
+<nav th:replace="~{layout :: navbar}"></nav>
 
 <div class="container mt-4">
     <div class="card mb-3 bg-light">
@@ -25,9 +25,13 @@
     </div>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2><i class="bi bi-exclamation-triangle me-2"></i>Alert Management</h2>
+        <h2>
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            <span th:text="#{alert.list.management}">Alert Management</span>
+        </h2>
         <a th:href="@{/alerts/new}" class="btn btn-primary">
-            <i class="bi bi-plus-circle me-2"></i>Create New Alert
+            <i class="bi bi-plus-circle me-2"></i>
+            <span th:text="#{alert.list.create}">Create New Alert</span>
         </a>
     </div>
 
@@ -44,19 +48,19 @@
     <div class="card shadow">
         <div class="card-body">
             <div th:if="${alerts.empty}" class="alert alert-info">
-                No alerts found.
+                <span th:text="#{alert.list.noalerts}">No alerts found.</span>
             </div>
 
             <div th:if="${!alerts.empty}" class="table-responsive">
                 <table class="table table-hover">
                     <thead class="table-primary">
                     <tr>
-                        <th>ID</th>
-                        <th>Message</th>
-                        <th>Location</th>
-                        <th>Created By</th>
-                        <th>Date</th>
-                        <th>Actions</th>
+                        <th th:text="#{alert.list.id}">ID</th>
+                        <th th:text="#{alert.list.message}">Message</th>
+                        <th th:text="#{alert.list.location}">Location</th>
+                        <th th:text="#{alert.list.createdby}">Created By</th>
+                        <th th:text="#{alert.list.date}">Date</th>
+                        <th th:text="#{alert.list.actions}">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -69,12 +73,12 @@
                         <td>
                             <div class="btn-group btn-group-sm">
                                 <a th:href="@{/alerts/{id}/edit(id=${alert.id})}" class="btn btn-outline-primary"
-                                   data-bs-toggle="tooltip" title="Edit">
+                                   data-bs-toggle="tooltip" th:title="#{alert.list.edit.tooltip}">
                                     <i class="bi bi-pencil"></i>
                                 </a>
                                 <a th:href="@{/alerts/{id}/delete(id=${alert.id})}" class="btn btn-outline-danger"
-                                   onclick="return confirm('Are you sure you want to delete this alert?')"
-                                   data-bs-toggle="tooltip" title="Delete">
+                                   th:onclick="'return confirm(\'' + #{alert.list.delete.confirm} + '\')'"
+                                   data-bs-toggle="tooltip" th:title="#{alert.list.delete.tooltip}">
                                     <i class="bi bi-trash"></i>
                                 </a>
                             </div>
@@ -87,7 +91,7 @@
     </div>
 </div>
 
-<footer th:replace="layout :: footer"></footer>
+<footer th:replace="~{layout :: footer}"></footer>
 
 </body>
 </html>

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt_BR">
-<head th:replace="layout :: head(${alert.id != null ? 'Edit Alert' : 'Create Alert'})">
-    <title>Alert Form - Flood Alert System</title>
+<html xmlns:th="http://www.thymeleaf.org" lang="en_US">
+<head th:replace="~{layout :: head(${alert.id != null ? '#{alert.form.edit.title}' : '#{alert.form.create.title}'})}">
+    <title th:text="#{alert.form.title}">Alert Form - Flood Alert System</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
 
 <!-- Include navbar from fragments -->
-<nav th:replace="layout :: navbar"></nav>
+<nav th:replace="~{layout :: navbar}"></nav>
 
 <div class="container mt-4">
     <div class="card mb-3 bg-light">
@@ -28,7 +28,7 @@
         <div class="card-header bg-primary text-white">
             <h4 class="mb-0">
                 <i class="bi bi-exclamation-triangle me-2"></i>
-                <span th:text="${alert.id != null ? 'Edit Alert' : 'Create New Alert'}">Alert Form</span>
+                <span th:text="#{alert.form.create.title}">Alert Form</span>
             </h4>
         </div>
         <div class="card-body">
@@ -40,52 +40,53 @@
                 <input type="hidden" th:field="*{positionId}" th:if="${alert.positionId != null}" />
 
                 <div class="mb-3">
-                    <label for="message" class="form-label">Alert Message</label>
+                    <label for="message" class="form-label" th:text="#{alert.form.message.label}">Alert Message</label>
                     <textarea id="message" th:field="*{message}" class="form-control" rows="3" required></textarea>
-                    <div class="form-text">Provide a clear and concise description of the alert.</div>
+                    <div class="form-text" th:text="#{alert.form.message.help}">Provide a clear and concise description of the alert.</div>
                     <div class="text-danger" th:if="${#fields.hasErrors('message')}" th:errors="*{message}"></div>
                 </div>
 
                 <div class="mb-3">
-                    <label for="locationId" class="form-label">Location</label>
+                    <label for="locationId" class="form-label" th:text="#{alert.form.location.label}">Location</label>
                     <select id="locationId" th:field="*{locationId}" class="form-select" required>
-                        <option value="">-- Select Location --</option>
+                        <option value="" th:text="#{alert.form.location.select}">-- Select Location --</option>
                         <option th:each="location : ${locations}"
                                 th:value="${location.id}"
                                 th:text="${location.city + ', ' + location.state}">Location</option>
                     </select>
-                    <div class="form-text">Select the location affected by this alert.</div>
+                    <div class="form-text" th:text="#{alert.form.location.help}">Select the location affected by this alert.</div>
                     <div class="text-danger" th:if="${#fields.hasErrors('locationId')}" th:errors="*{locationId}"></div>
                 </div>
 
                 <div class="mb-3">
-                    <label for="userId" class="form-label">Created By</label>
+                    <label for="userId" class="form-label" th:text="#{alert.form.user.label}">Created By</label>
                     <select id="userId" th:field="*{userId}" class="form-select" required>
-                        <option value="">-- Select User --</option>
+                        <option value="" th:text="#{alert.form.user.select}">-- Select User --</option>
                         <option th:each="user : ${users}"
                                 th:value="${user.id}"
                                 th:text="${user.name + ' (' + user.username + ')'}">User</option>
                     </select>
-                    <div class="form-text">Select the user who is creating this alert.</div>
+                    <div class="form-text" th:text="#{alert.form.user.help}">Select the user who is creating this alert.</div>
                     <div class="text-danger" th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"></div>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Creation Time</label>
+                    <label class="form-label" th:text="#{alert.form.creation.label}">Creation Time</label>
                     <input type="text" class="form-control" th:value="${#temporals.format(alert.creation, 'dd/MM/yyyy HH:mm:ss')}" readonly />
                     <div class="form-text">
                         <i class="bi bi-info-circle me-1"></i>
-                        The date and time when this alert was created.
+                        <span th:text="#{alert.form.creation.help}">The date and time when this alert was created.</span>
                     </div>
                 </div>
 
                 <div class="d-flex justify-content-between mt-4">
                     <a th:href="@{/alerts}" class="btn btn-outline-secondary">
-                        <i class="bi bi-arrow-left me-1"></i>Back to List
+                        <i class="bi bi-arrow-left me-1"></i>
+                        <span th:text="#{alert.form.back}">Back to List</span>
                     </a>
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-save me-1"></i>
-                        <span th:text="${alert.id != null ? 'Update Alert' : 'Create Alert'}">Save</span>
+                        <span th:text="#{alert.form.create}">Save</span>
                     </button>
                 </div>
             </form>
@@ -93,7 +94,7 @@
     </div>
 </div>
 
-<footer th:replace="layout :: footer"></footer>
+<footer th:replace="~{layout :: footer}"></footer>
 
 </body>
 </html>
