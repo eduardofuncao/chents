@@ -23,7 +23,7 @@ public class Alert {
     @ManyToOne
     private Location location;
 
-    @OneToOne
+    @ManyToOne
     private Position position;
 
     public Alert() {

@@ -38,9 +38,8 @@ public class AlertMapper {
 
     public Alert toEntity(AlertDTO dto) {
         if (dto == null) return null;
-
         Alert alert = new Alert();
-        alert.setId( dto.getId());
+        if (dto.getId() != null) alert.setId(dto.getId());
         alert.setCreation(dto.getCreation());
         alert.setMessage(dto.getMessage());
 
