@@ -1,0 +1,27 @@
+body {
+    background-color: #f5f7fa;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card {
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.card-header {
+    border-radius: 8px 8px 0 0 !important;
+}
+
+.footer {
+    margin-top: auto;
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
+}
+
+.alert {
+    border-left: 4px solid #ffcd39;
+    border-radius: 4px;
+}
