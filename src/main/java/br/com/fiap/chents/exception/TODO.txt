@@ -1,1 +1,0 @@
-criar AlertAlreadyCreatedByUserException para previnir exclusaão de usuários com alertas criados
