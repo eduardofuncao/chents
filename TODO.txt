@@ -1,9 +1,8 @@
 - criar AlertAlreadyCreatedByUserException para previnir exclusaão de usuários com alertas criados
 - alterar nome e logo para chents
-- rabbitMQ para envio de mensagens ao criar alertas
 - app consumidora para ler alertas e manipular com ia
 - testes unitários e de integração
-- diagrama de arquitetura
 - criar dockerfile e uppar docker hub/acr
 - criar docker-compose
+- diagrama de arquitetura
 - deploy com acr aci

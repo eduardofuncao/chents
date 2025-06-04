@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en_US">
+<head th:replace="~{layout :: head('Error')}">
+    <title th:text="#{home.title}">Error - Flood Alert System</title>
+</head>
+
+<body>
+<nav th:replace="~{layout :: navbar}"></nav>
+<section>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h4>Erro</h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger">
+                        <h5 th:text="${error} + ' (' + ${status} + ')'">Erro</h5>
+                        <p th:text="${message}">Mensagem de erro</p>
+                    </div>
+
+                    <div class="mt-4">
+                        <p><strong>Data/Hora:</strong> <span th:text="${#temporals.format(timestamp, 'dd/MM/yyyy HH:mm:ss')}">01/01/2025 12:00:00</span></p>
+                        <p><strong>Caminho:</strong> <span th:text="${path}">/path</span></p>
+                    </div>
+
+                    <div class="mt-4">
+                        <a href="/" class="btn btn-primary">Voltar para a Página Inicial</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="~{layout :: footer}"></footer>
+</body>
+</html>

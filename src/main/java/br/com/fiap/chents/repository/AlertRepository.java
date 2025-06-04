@@ -1,6 +1,7 @@
 package br.com.fiap.chents.repository;
 
 import br.com.fiap.chents.entity.Alert;
+import br.com.fiap.chents.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AlertRepository extends JpaRepository<Alert, Long> {
+    Boolean existsByUser(User user);
 
     @Query(value = """
     SELECT a.* FROM alert a

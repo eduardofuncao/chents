@@ -3,6 +3,8 @@ package br.com.fiap.chents.service;
 import br.com.fiap.chents.entity.User;
 import br.com.fiap.chents.entity.dto.UserDTO;
 import br.com.fiap.chents.entity.mapper.UserMapper;
+import br.com.fiap.chents.exception.AlertAlreadyCreatedByUserException;
+import br.com.fiap.chents.repository.AlertRepository;
 import br.com.fiap.chents.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,11 +17,13 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final AlertRepository alertRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, UserMapper userMapper, AlertRepository alertRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.alertRepository = alertRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -53,6 +57,8 @@ public class UserService {
 
     public boolean deleteUser(Long id) {
         if (userRepository.existsById(id)) {
+            if (alertRepository.existsByUser(userRepository.findById(id).orElse(null)))
+                throw new AlertAlreadyCreatedByUserException("There is an alert associated with the user. The user cannot be deleted.");
             userRepository.deleteById(id);
             return true;
         }
