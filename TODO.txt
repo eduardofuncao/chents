@@ -1,6 +1,4 @@
-- criar AlertAlreadyCreatedByUserException para previnir exclusaão de usuários com alertas criados
 - alterar nome e logo para chents
-- app consumidora para ler alertas e manipular com ia
 - testes unitários e de integração
 - criar dockerfile e uppar docker hub/acr
 - criar docker-compose
