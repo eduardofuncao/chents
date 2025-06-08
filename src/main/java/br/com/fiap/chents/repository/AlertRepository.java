@@ -13,16 +13,16 @@ public interface AlertRepository extends JpaRepository<Alert, Long> {
     Boolean existsByUser(User user);
 
     @Query(value = """
-    SELECT a.* FROM alert a
-    JOIN position p ON a.position_id = p.id
-    WHERE
-      a.creation >= :since
-      AND (6371 * acos(
-            cos(radians(:lat)) * cos(radians(p.latitude)) *
-            cos(radians(p.longitude) - radians(:lng)) +
-            sin(radians(:lat)) * sin(radians(p.latitude))
-          )) < :radius
-    """, nativeQuery = true)
+        SELECT a.* FROM alert a
+        JOIN position p ON a.position_id = p.id
+        WHERE
+          a.creation >= :since
+          AND (6371 * ACOS(
+                COS(:lat * ACOS(-1)/180) * COS(p.latitude * ACOS(-1)/180) *
+                COS(p.longitude * ACOS(-1)/180 - :lng * ACOS(-1)/180) +
+                SIN(:lat * ACOS(-1)/180) * SIN(p.latitude * ACOS(-1)/180)
+              )) < :radius
+        """, nativeQuery = true)
     List<Alert> findAlertsNearby(
             @Param("lat") double latitude,
             @Param("lng") double longitude,
