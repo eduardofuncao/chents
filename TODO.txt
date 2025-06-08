@@ -1,6 +1,1 @@
 - alterar nome e logo para chents
-- testes unitários e de integração
-- criar dockerfile e uppar docker hub/acr
-- criar docker-compose
-- diagrama de arquitetura
-- deploy com acr aci

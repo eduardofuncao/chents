@@ -29,9 +29,7 @@ public class PositionController {
         this.userRepository = userRepository;
     }
 
-    /**
-     * Get the current logged-in user's position
-     */
+
     @GetMapping("/position")
     public ResponseEntity<?> getUserPosition() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -53,9 +51,6 @@ public class PositionController {
         return ResponseEntity.ok(new HashMap<>());
     }
 
-    /**
-     * Update the current logged-in user's position with GPS coordinates
-     */
     @PostMapping("/position/update")
     public ResponseEntity<?> updateUserPosition(@RequestBody Map<String, Double> positionData) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

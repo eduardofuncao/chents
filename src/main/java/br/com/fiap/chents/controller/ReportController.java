@@ -27,7 +27,6 @@ public class ReportController {
 
     @GetMapping
     public String showReportsDashboard(Model model) {
-        // Add current timestamp for display
         model.addAttribute("currentDateTime", LocalDateTime.now());
         model.addAttribute("currentUser", "eduardofuncao");
         return "reports/dashboard";
