@@ -76,7 +76,7 @@ O resultado dos testes estará disponível como relatório em `build/reports/tes
 https://youtu.be/jDj5sXP5_eA
 
 ### Pitch
-
+https://youtu.be/oQm-Hxg91No
 
 ### Deploy Azure
 http://52.224.132.231:8080
