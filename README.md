@@ -18,7 +18,7 @@ O CHENTS (Sistema de Alerta de Enchentes) é uma aplicação web desenvolvida pa
 ## Funcionalidades Principais
 
 - **Monitoramento em Tempo**: Acompanhamento de alertas de enchentes em diferentes regiões em tempo real
-- **Sistema de Alertas**: Notificações automáticas para usuários em áreas de risco através da API do Telegram através da aplicação consumidora em [chents=consumer](github.com/eduardofuncao/chents-consumer)
+- **Sistema de Alertas**: Notificações automáticas para usuários em áreas de risco através da API do Telegram através da aplicação consumidora em [chents-consumer](github.com/eduardofuncao/chents-consumer)
 
 ### Passos para Execução
 
