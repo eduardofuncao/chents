@@ -76,9 +76,7 @@ FALTA DIAGRAMA
 
 ## Links Importantes
 
-- [Deploy da Aplicação](#)
-- [Vídeo de Demonstração](#)
-- [Vídeo Pitch](#)
+- https://www.youtube.com/watch?v=62VJ88lJ8ug
 
 ---
 
