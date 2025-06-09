@@ -58,15 +58,7 @@ mvn test
 
 ## Diagrama Entidade Relacionamento
 
-FALTA DIAGRAMA
-FALTA DIAGRAMA
-FALTA DIAGRAMA
-
-## Arquitetura do Sistema
-
-FALTA DIAGRAMA
-FALTA DIAGRAMA
-FALTA DIAGRAMA
+![image](https://github.com/eduardofuncao/chents/blob/662eb1068e401f1c416a70fab6eec50c94f332eb/Modelagem_CHENTS.jpeg)
 
 ## Equipe
     Eduardo Função - RM553362
