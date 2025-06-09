@@ -48,17 +48,21 @@ docker-compose up -d
 ```
 
 ## Testes
-
-ALTERAR COM INSTRUÇÕES REAIS
 Para executar os testes automatizados:
 
 ```bash
-mvn test
+./gradlew test 
 ```
+
+O resultado dos testes estará disponível como relatório em `build/reports/test`
 
 ## Diagrama Entidade Relacionamento
 
 ![image](https://github.com/eduardofuncao/chents/blob/662eb1068e401f1c416a70fab6eec50c94f332eb/Modelagem_CHENTS.jpeg)
+
+## Diagrama de Arquitetura
+![image](https://github.com/user-attachments/assets/af14ac70-8be9-4c06-92a1-b832854c743f)
+
 
 ## Equipe
     Eduardo Função - RM553362
@@ -68,8 +72,18 @@ mvn test
 
 ## Links Importantes
 
-## Apresentação Funcionalidades Aplicação x Banco de dados
-- https://www.youtube.com/watch?v=62VJ88lJ8ug
+### Vídeo demo
+https://youtu.be/jDj5sXP5_eA
+
+### Pitch
+
+
+### Deploy Azure
+http://52.224.132.231:8080
+
+
+### Apresentação Funcionalidades Aplicação x Banco de dados
+https://www.youtube.com/watch?v=62VJ88lJ8ug
 
 ---
 
