@@ -27,15 +27,7 @@ O CHENTS (Sistema de Alerta de Enchentes) é uma aplicação web desenvolvida pa
    git clone https://github.com/eduardofuncao/chents.git
    ```
 
-2. Configure o arquivo de propriedades:
-   ```
-   src/main/resources/application.properties
-   ```
-
 3. Execute o aplicativo:
-   ```bash
-   mvn spring-boot:run
-   ```
 
 4. Acesse o sistema em:
    ```
